@@ -2,15 +2,13 @@ const path = require("path");
 const HtmilWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
-const { PassThrough } = require("stream");
 
-
-/** @type {import('webpack').Configuration} */
 module.exports = {
     entry: "./src/index.js",
     output: {
         path: path.resolve(__dirname, "dist"),
         filename: "main.js",
+        assetModuleFilename: "assets/images/[hash][ext][query]"
     },
     resolve: {
         extensions: [".js"]
@@ -30,6 +28,17 @@ module.exports = {
                 "css-loader",
                 "stylus-loader"
                 ],
+            },
+            {
+                test: /\.png/,
+                type: 'asset/resource'
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/i,
+                type: "asset/resource",
+                generator: {
+                  filename: "assets/fonts/[hash][ext]",
+                },
             }
         ]
     },
